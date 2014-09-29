@@ -1,0 +1,19 @@
+{
+  "name": "stashe",
+  "version": "0.0.1",
+  "description": "A key/value cache supporting deep nesting, protected storage, shared caches and stats",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lodash": "^2.4.1",
+    "nodeunit": "^0.9.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joseph Clay",
+  "license": "MIT"
+}
