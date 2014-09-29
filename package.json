@@ -1,5 +1,5 @@
 {
-  "name": "stashe",
+  "name": "stashe-js",
   "version": "0.0.1",
   "description": "A key/value cache supporting deep nesting, protected storage, shared caches and stats",
   "main": "index.js",
