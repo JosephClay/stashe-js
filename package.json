@@ -1,6 +1,6 @@
 {
   "name": "stashe-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A key/value cache supporting deep nesting, protected storage, shared caches and stats",
   "main": "src/index",
   "directories": {
