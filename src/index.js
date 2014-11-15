@@ -28,7 +28,7 @@ Cache.prototype = {
 
     id: function(id) {
         var self = this;
-        
+
         // just getting the id. that's safe
         if (id === undefined) { return self._id; }
 
@@ -69,17 +69,20 @@ Cache.prototype = {
     getOrSet: function(key, fn) {
         var self = this,
             args = arguments;
-            
+
         if (args.length > 2) {
             key = utils.slice(args);
             fn = key.pop();
         }
 
-        if (self.get(key) === undefined) {
-            self.set(key, fn());
+        var result;
+        if ((result = self.get(key)) === undefined) {
+            var value = fn();
+            self.set(key, value);
+            return value;
         }
-        
-        return self;
+
+        return result;
     },
 
     get: function(key) {
@@ -127,7 +130,7 @@ Cache.prototype = {
         self._reads = self._writes = self._deletes = 0;
 
         store.flush(self);
-        
+
         return self;
     },
 

@@ -2,7 +2,7 @@
   "name": "stashe-js",
   "version": "0.0.1",
   "description": "A key/value cache supporting deep nesting, protected storage, shared caches and stats",
-  "main": "index.js",
+  "main": "src/index",
   "directories": {
     "test": "tests"
   },
@@ -12,7 +12,7 @@
     "nodeunit": "^0.9.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodeunit tests/tests.js"
   },
   "author": "Joseph Clay",
   "license": "MIT"

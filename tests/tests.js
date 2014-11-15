@@ -1,5 +1,5 @@
 var _ = require('lodash'),
-    stashe = require('../index');
+    stashe = require('../src/index');
 
 exports['construct instance'] = function(test) {
 
@@ -100,7 +100,7 @@ exports['get/set deep'] = function(test) {
     cache.set(['foo', 'bar'], 1);
     test.deepEqual(cache.toJSON(), { 'foo': { 'bar': 1 } }, 'cannot set a value via an array');
     test.ok(cache.get([ 'foo', 'bar' ]) === 1, 'cannot get a value via an array');
-    
+
     test.deepEqual(cache.toJSON(), { 'foo': { 'bar': 1 } }, 'cached keys are not deeply nested');
 
     var cache2 = stashe.create();
@@ -128,7 +128,7 @@ exports['flush tests'] = function(test) {
     cache.set(['bar', 'baz'], 1);
     test.ok(cache.get('foo') === 1, 'cache did not contain initial data to flush');
     test.ok(cache.get(['bar', 'baz']) === 1, 'cache did not contain initial deep data to flush');
-    
+
     cache.flush();
 
     test.ok(_.isEmpty(cache.toJSON()), 'cache is not empty');
@@ -144,10 +144,10 @@ exports['id get/set'] = function(test) {
     test.ok(_.isNumber(cache.id()), 'cache does not have an initial id');
     test.ok(cache.id() !== 0, 'inital cache should not be zero');
     test.ok(!!cache.id(), 'inital cache should not be falsy');
-    
+
     test.ok(cache.id(999) === 999, 'setting an id does not return the new id');
     test.ok(cache.id() === 999, 'setting an id did not override private id');
-    
+
     cache.id('foo');
     test.ok(cache.id() === 'foo', 'a string cannot be set as an id');
 
@@ -205,12 +205,12 @@ exports['get or set conditionally'] = function(test) {
     var cache = stashe.create();
 
     var result = cache.getOrSet('foo', function() { return 1; });
-    test.ok(result === cache, 'getOrSet does not return itself for chaining');
+    test.ok(result === 1, 'getOrSet does not return the set value');
     test.ok(cache.get('foo') === 1, 'getOrSet set its value when set destination is undefined');
 
     cache.getOrSet('foo', function() { return 2; });
     test.ok(cache.get('foo') === 1, 'getOrSet overrides already stored value (1)');
-    
+
     cache.set('foo', null);
     cache.getOrSet('foo', function() { return 2; });
     test.ok(cache.get('foo') === null, 'getOrSet overrides already stored value (null)');
@@ -246,7 +246,7 @@ exports['utility tests'] = function(test) {
     test.ok(cache2.size() === 1, 'cache with data shows incorrect size');
     cache2.remove('foo');
     test.ok(cache2.size() === 0, 'cache with removed key shows incorrect size');
-    
+
     test.ok(_.isObject(cache2.stats()), 'stats was not returned as an object');
 
     test.done();
@@ -260,7 +260,7 @@ exports['count tests'] = function(test) {
     test.ok(cache.stats().reads   === 0, 'cache does not start out with zero-based stats for reads');
     test.ok(cache.stats().writes  === 0, 'cache does not start out with zero-based stats for writes');
     test.ok(cache.stats().deletes === 0, 'cache does not start out with zero-based stats for deletes');
-    
+
     cache.set('foo', 1);
     cache.set('bar', 1);
     cache.set('baz', 1);
@@ -269,7 +269,7 @@ exports['count tests'] = function(test) {
     test.ok(cache.stats().reads   === 0, 'cache does not store correct value for reads after setting');
     test.ok(cache.stats().writes  === 3, 'cache does not store correct value for writes after setting');
     test.ok(cache.stats().deletes === 0, 'cache does not store correct value for deletes after setting');
-    
+
     cache.get('foo');
     cache.get('bar');
     cache.get('baz');
@@ -278,7 +278,7 @@ exports['count tests'] = function(test) {
     test.ok(cache.stats().reads   === 3, 'cache does not store correct value for reads after getting');
     test.ok(cache.stats().writes  === 3, 'cache does not store correct value for writes after getting');
     test.ok(cache.stats().deletes === 0, 'cache does not store correct value for deletes after getting');
-    
+
     cache.remove('baz');
     test.ok(cache.stats().keys    === 2, 'cache does not store correct value for keys after removing');
     test.ok(cache.stats().flushes === 0, 'cache does not store correct value for flushes after removing');
